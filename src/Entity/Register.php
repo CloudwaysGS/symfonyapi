@@ -24,6 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             //normalizationContext: ['groups' => ['register:read']]
 
         ),
+        new Get(),
     ]
 )]
 
