@@ -7,9 +7,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class JsonResponseGenerator
-{   
-    public function createSuccessResponse($message, $statusCode = Response::HTTP_OK)
+{
+    public function createSuccessResponse($message, $statusCode = Response::HTTP_OK, $data = [])
     {
-        return new JsonResponse(['message' => $message], $statusCode);
+        $response = [
+            'message' => $message,
+        ];
+
+        if (!empty($data)) {
+            $response['data'] = $data;
+        }
+
+        return new JsonResponse($response, $statusCode);
     }
 }

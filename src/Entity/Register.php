@@ -43,7 +43,6 @@ class Register
 
     private ?string $password = null;
 
-    #[Groups('register:write')]
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private array $role = [];
 
@@ -113,8 +112,5 @@ class Register
         return $this;
     }
 
-    public function __toString()
-    {
-        return $this->role;
-    }
+
 }
