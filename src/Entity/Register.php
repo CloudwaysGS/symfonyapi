@@ -7,6 +7,7 @@ use ApiPlatform\Metadata\Post;
 use App\Repository\RegisterRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -19,11 +20,14 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new GetCollection(),  // Opération GET personnalisée
         new Post(
-            denormalizationContext: ['groups' => ['register:write']]
+            denormalizationContext: ['groups' => ['register:write']],
+            //normalizationContext: ['groups' => ['register:read']]
+
         ),
     ]
 )]
 
+#[UniqueEntity('username', message: 'Cet utilisateur existe deja.')]
 
 class Register
 {
@@ -32,17 +36,21 @@ class Register
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups('register:write')]
+    #[Groups('register:write', 'register:read')]
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:'Username ne peut pas etre vide')]
+    #[Assert\Length(max: 25, maxMessage: 'Trop long')]
+
     private ?string $username = null;
 
-    #[Groups('register:write')]
+    #[Groups('register:write', 'register:read')]
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message: 'Username ne peut pas etre vide')]
+    #[Assert\NotBlank(message: 'password ne peut pas etre vide')]
+    #[Assert\Length(max: 25, maxMessage: 'Trop long')]
 
     private ?string $password = null;
 
+    #[Groups('register:write', 'register:read')]
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private array $role = [];
 

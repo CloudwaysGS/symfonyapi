@@ -7,28 +7,24 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Form\Extension\Core\Type\TextType;  // Fixed typo here
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class RegisterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class, [  // Fixed typo here
-                'constraints' => [
-                    new NotBlank(),
-                ],
+            ->add('username', TextType::class, [
+                'constraints' => [new NotBlank(['message' => 'Username ne peut pas être vide'])],
             ])
-            ->add('password', TextType::class, [  // Fixed typo here
-                'constraints' => [
-                    new NotBlank(),
-                ],
+            ->add('password', TextType::class, [
+                'constraints' => [new NotBlank(['message' => 'Password ne peut pas être vide'])],
             ])
-            ->add('role', TextType::class, [  // Fixed typo here
-                'constraints' => [
-                    new NotBlank(),
-                ],
-            ]);
+
+            ->add('role', TextType::class, [
+                'constraints' => [new NotBlank(['message' => 'role ne peut pas être vide'])],
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -38,4 +34,3 @@ class RegisterType extends AbstractType
         ]);
     }
 }
-

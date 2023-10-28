@@ -25,13 +25,6 @@ services:
     App\Form\RegisterFormHandler:
         autowire: true
 
-    App\Services\UserManager:
-        arguments: ['@doctrine.orm.entity_manager']
-    
-    App\Services\JsonResponseGenerator: ~
 
-    App\Services\EmailService:
-        class: App\Services\EmailService
-        arguments:
-            $mailer: '@Symfony\Component\Mailer\MailerInterface'
+
 
