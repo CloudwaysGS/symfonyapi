@@ -33,6 +33,7 @@ class RegisterService
         $register = $this->serializer->deserialize(json_encode($requestData), Register::class, 'json');
 
         $violations = $this->validator->validate($register);
+
         if (count($violations) > 0) {
             $errors = [];
             foreach ($violations as $violation) {
@@ -49,7 +50,10 @@ class RegisterService
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        return ['message' => 'Enregistrement réussi'];
+        return [
+            'message' => 'Enregistrement reussi',
+            'register' => $register
+        ];
     }
 
     public function createUserFromRegister(Register $register)

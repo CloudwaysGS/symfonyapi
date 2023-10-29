@@ -19,9 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new GetCollection(),  // Opération GET personnalisée
         new Post(
-            denormalizationContext: ['groups' => ['register:write']],
-            //normalizationContext: ['groups' => ['register:read']]
-
+            normalizationContext: ['groups' => ['register:read']]
         ),
         new Get(),
     ]
@@ -36,21 +34,21 @@ class Register
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups('register:write', 'register:read')]
+    #[Groups('register:read')]
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:'Username ne peut pas etre vide')]
     #[Assert\Length(max: 25, maxMessage: 'Trop long')]
 
     private ?string $username = null;
 
-    #[Groups('register:write', 'register:read')]
+    #[Groups('register:read')]
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'password ne peut pas etre vide')]
     #[Assert\Length(max: 25, maxMessage: 'Trop long')]
 
     private ?string $password = null;
 
-    #[Groups('register:write', 'register:read')]
+    #[Groups('register:read')]
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private array $role = [];
 
