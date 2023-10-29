@@ -17,9 +17,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
-        new GetCollection(),  // Opération GET personnalisée
+        new GetCollection(
+            normalizationContext: ['groups' => ['register:read:all']]
+        ),  // Opération GET personnalisée
         new Post(
-            normalizationContext: ['groups' => ['register:read']]
+            normalizationContext: ['groups' => ['register:read']],
+            denormalizationContext: ['groups' => ['registers:write']]
+
         ),
         new Get(),
     ]
@@ -34,21 +38,20 @@ class Register
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups('register:read')]
+    #[Groups(['register:read','registers:write', 'register:read:all'])]
     #[ORM\Column(length: 255)]
-    #[Assert\NotBlank(message:'Username ne peut pas etre vide')]
+    #[Assert\NotBlank(message: 'Username ne peut pas être vide')]
     #[Assert\Length(max: 25, maxMessage: 'Trop long')]
-
     private ?string $username = null;
 
-    #[Groups('register:read')]
+    #[Groups(['register:read','registers:write', 'register:read:all'])]
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message: 'password ne peut pas etre vide')]
     #[Assert\Length(max: 25, maxMessage: 'Trop long')]
 
     private ?string $password = null;
 
-    #[Groups('register:read')]
+    #[Groups(['register:read','registers:write','register:read:all'])]
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private array $role = [];
 

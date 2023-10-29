@@ -52,7 +52,6 @@ class RegisterService
 
         return [
             'message' => 'Enregistrement reussi',
-            'register' => $register
         ];
     }
 
