@@ -25,7 +25,8 @@ use Symfony\Component\Validator\Constraints as Assert;
             denormalizationContext: ['groups' => ['registers:write']]
 
         ),
-        new Get(),
+        new Get(
+        ),
     ]
 )]
 
@@ -36,6 +37,7 @@ class Register
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['register:read','registers:write', 'register:read:all'])]
     private ?int $id = null;
 
     #[Groups(['register:read','registers:write', 'register:read:all'])]

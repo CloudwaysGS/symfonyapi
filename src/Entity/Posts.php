@@ -15,13 +15,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PostsRepository::class)]
 #[ApiResource(
     operations: [
-        new GetCollection(),  // Opération GET personnalisée
+        new GetCollection(
+            normalizationContext: ['groups' => ['post:read:all']]
+
+        ),  // Opération GET personnalisée
         new Post(
             denormalizationContext: ['groups' => ['post:write']],
             normalizationContext: ['groups' => ['post:read']]
-
         ),
-        new Get(),
     ]
 )]
 
@@ -34,24 +35,24 @@ class Posts
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:'titre ne peut pas etre vide')]
-    #[Groups('post:write')]
+    #[Groups(['post:write', 'post:read', 'post:read:all'])]
     private ?string $titre = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:'contenu ne peut pas etre vide')]
-    #[Groups('post:write')]
+    #[Groups(['post:write', 'post:read', 'post:read:all'])]
     private ?string $contenu = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:'auteur ne peut pas etre vide')]
     #[Assert\Email(message:'L adresse e-mail n est pas valide.')]
-    #[Groups('post:write')]
+    #[Groups(['post:write', 'post:read', 'post:read:all'])]
     private ?string $auteur = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:'email ne peut pas etre vide')]
     #[Assert\Email(message:'L adresse e-mail n est pas valide.')]
-    #[Groups('post:write')]
+    #[Groups(['post:write', 'post:read', 'post:read:all'])]
     private ?string $email = null;
 
     public function getId(): ?int
